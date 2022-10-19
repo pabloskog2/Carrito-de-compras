@@ -1,16 +1,25 @@
 
-let add = document.getElementById('agregar')
-let save = document.getElementById('guardar')
-let list = document.getElementById('lista')
+let add = document.querySelector('#agregar');
+let list = document.querySelector('#lista');
 
 let data = []
 let ordenTransporte = 0
 
 
-add.addEventListener('click',agregarFuncion);
-save.addEventListener('click',guardarFuncion);
+formulario.addEventListener('submit',validarFormulario)
 
-function agregarFuncion(e){
+function validarFormulario(e){
+    e.preventDefault();
+    if (nombre.value == ''){
+        alert ('Ingrese Nombre')
+        return;
+    }
+    else{
+        agregarEmpleado();
+    }
+}
+
+function agregarEmpleado () {
     let nombre = document.getElementById("nombre").value;
     let apellido = document.getElementById("apellido").value;
     let destino = document.getElementById("listadoComunas").value;
@@ -27,25 +36,24 @@ function agregarFuncion(e){
             "peso": peso,
             "total": total
         }
-    
     );
     let id_row = 'row'+ordenTransporte
-    let fila = '<tr id='+id_row+'> <td>'+ordenTransporte+'</td> <td>'+nombre+'</td> <td>'+apellido+'</td> <td>'+destino+'</td> <td>'+cantidad+'</td> <td>'+peso+'</td> <td> <a href="" class="btn btn-danger" onclick="eliminar('+ordenTransporte+')"> Eliminar </a></td> </tr>'
+    let fila = '<tr id='+id_row+'> <td>'+ordenTransporte+'</td> <td>'+nombre+'</td> <td>'+apellido+'</td> <td>'+destino+'</td> <td>'+cantidad+'</td> <td>'+peso+'</td> <td> <a href="#" class="btn btn-danger" onclick="eliminar('+ordenTransporte+')"> Eliminar </a></td> </tr>'
     $("#lista").append(fila);
-//    $("#nombre").val('');
-//    $("#apellido").val('');
-//    $("#peso").val('');
+    $("#nombre").val('');
+    $("#apellido").val('');
+    $("#canti").val('');
+    $("#peso").val('');
     ordenTransporte++
-    sumar();
-    e.preventDefault();
-}
-
-function sumar(){
-    let tot=0;
-    for(x of data){
-        tot=tot+x.total;
-    }
-    document.getElementById('total').innerHTML="Peso Total   "+tot;
+    Toastify({
+        text: "Orden creada con éxito",
+        duration: 3000,
+        stopOnFocus: true,
+        style: {
+            background: "#58cbc2",
+        },
+        })
+        .showToast();
 }
 
 function eliminar(row){
@@ -58,11 +66,14 @@ function eliminar(row){
         }
         i++;
     }
-    data.splice(pos,1)
-
-
-}
-
-function guardarFuncion(){
-
+    data.splice(pos,1);
+    Toastify({
+        text: "Orden eliminada exitosamente",
+        duration: 3000,
+        stopOnFocus: true,
+        style: {
+            background: "#df6868",
+        },
+        })
+        .showToast();
 }
